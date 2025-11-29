@@ -1,0 +1,93 @@
+<%- include('partials/header') %>
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+    <!-- Custom styles for this template -->
+
+
+
+<div class="container-fluid">
+
+  <div class="row">
+  <%- include('partials/leftmenu') %>
+
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Dashboard</h1>
+        <div class="btn-toolbar mb-2 mb-md-0">
+          <div class="btn-group mr-2">
+            <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
+            <button type="button" class="btn btn-sm btn-outline-secondary">Export</button>
+          </div>
+          <button type="button" class="btn btn-sm btn-outline-secondary dropdown-toggle">
+            <span data-feather="calendar"></span>
+            This week
+          </button>
+        </div>
+      </div>
+
+
+      <div class=""style="height:10px;">
+      </div>
+      <form action="/uploadfile" method="post" enctype="multipart/form-data">
+      <input type="file" name="oynafile" />
+        <button type="submit" class="btn btn-dark">Upload</button>
+    </form>
+    <div class=""style="height:100px;">
+    </div>
+    <div class="table">
+      <table  class="table">
+        <thead>
+              <th>#</th>
+        <th>File Name </th>
+      <th>File Path </th>
+        <th>Store </th>
+          <th>Consumers </th>
+        </th>
+      </thead>
+      <% for(var i=0; i < people.length; i++) { %>
+         <tr>
+            <td><%= i %></td>
+           <td><a href=<%= "/download_File/"+people[i].fileid %>><%= people[i].filename %></a></td>
+           <td><%= people[i].filepath %></td>
+            <td><%= people[i].store %></td>
+             <td>
+               <%for(var j=0;j< people[i].consumers.length;j++){
+                 if(j!=0){ %>
+                 <%=","%>
+                 <% } %>
+                 <%= people[i].consumers[j].user %>
+
+              <% } %>
+
+             </td>
+         </tr>
+      <% } %>
+      </table>
+    </div>
+
+    </main>
+  </div>
+</div>
+  <script> (function () {
+          'use strict'
+
+          feather.replace()
+          var useracc= '<%- JSON.stringify(people)%>' ;
+  console.log(useracc);
+        })()</script>
+<%- include('partials/footer') %>

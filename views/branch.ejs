@@ -1,0 +1,56 @@
+<%- include('partials/header') %>
+<div class="container-fluid">
+
+  <div class="row">
+  <%- include('partials/leftmenu') %>
+
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Users</h1>
+
+      </div>
+
+
+      <div class=""style="height:10px;">
+      </div>
+
+    <div class="col-xs-2 offset-10"style="height:50px;">
+      <button type="button" name="AddBranchbtn"class="btn btn-md btn-outline-secondary "data-toggle="modal" data-target="#addbranchmodal" >
+        <span data-feather="plus-circle"></span>
+        Add User
+      </button>
+    </div>
+    <div class="table">
+      <table  class="table">
+        <thead>
+        <th>#</th>
+        <th> Name </th>
+      <th>User Name</th>
+        <th>App Type</th>
+
+        </th>
+      </thead>
+      <% for(var i=0; i < users.length; i++) { %>
+         <tr>
+            <td><%= i %></td>
+           <td><a href="#"><%= users[i].name %></a></td>
+           <td><%= users[i].username %></td>
+           <td><%= users[i].apptype %></td>
+
+         </tr>
+      <% } %>
+      </table>
+    </div>
+
+    </main>
+  </div>
+  <%- include('partials/adduser', {branchid:branchid}) %>
+</div>
+  <script> (function () {
+          'use strict'
+
+          feather.replace()
+          var useracc= '<%- JSON.stringify(users)%>' ;
+  console.log(useracc);
+        })()</script>
+<%- include('partials/footer') %>
