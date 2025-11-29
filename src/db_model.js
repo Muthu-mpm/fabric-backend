@@ -10,7 +10,19 @@ const session = require("express-session");
 var LocalStrategy = require("passport-local").Strategy;
 mongoose.connect("mongodb+srv://muthumpm:qlIwOUmyOG7a5ABX@mongodb.5sy58yd.mongodb.net/?appName=mongodb", {
   useNewUrlParser: true,
-});
+  useUnifiedTopology: true,
+  // Optional: fail faster for quick debugging (ms)
+  serverSelectionTimeoutMS: 5000,
+})
+  .then(() => console.log('MongoDB connected'))
+  .catch(err => {
+    console.error('MongoDB connection error:', err);
+    // helpful diagnostics:
+    if (err && err.reason && err.reason.servers) {
+      console.error('Servers attempted:', Array.from(err.reason.servers.keys()));
+    }
+    process.exit(1);
+  });
 mongoose.set("useCreateIndex", true);
 var JwtStrategy = require("passport-jwt").Strategy;
 var ExtractJwt = require("passport-jwt").ExtractJwt;
@@ -32,7 +44,7 @@ const userSchema = new mongoose.Schema({
   apptype: String,
   salt: String,
   hash: String,
-  avatarGenerated:{ type: Number, default: 0},
+  avatarGenerated: { type: Number, default: 0 },
 });
 /**
 * @function
@@ -157,10 +169,10 @@ const productSchema = new mongoose.Schema({
   quantity: String,
   store: String,
   origin: String,
-  category: { type:mongoose.Schema.Types.ObjectId, ref: 'productcatlog' },
+  category: { type: mongoose.Schema.Types.ObjectId, ref: 'productcatlog' },
   createdAt: { type: Date, default: Date.now },
   show: Boolean,
-  images:[] 
+  images: []
 });
 const productTypeSchema = new mongoose.Schema({
   name: String,
@@ -169,12 +181,12 @@ const productTypeSchema = new mongoose.Schema({
 const productCatlogSchema = new mongoose.Schema({
   name: String,
   store: String,
-  type: { type:mongoose.Schema.Types.ObjectId, ref: 'producttype' }
+  type: { type: mongoose.Schema.Types.ObjectId, ref: 'producttype' }
 });
 const nodeSync = new mongoose.Schema({
-  user_id: { type:mongoose.Schema.Types.ObjectId},
+  user_id: { type: mongoose.Schema.Types.ObjectId },
   store: String,
-  syncfiles:[],
+  syncfiles: [],
 
 });
 
@@ -191,11 +203,11 @@ module.exports = {
   ProcessLog: new mongoose.model("ProcessLog", processlog),
   AvatarGeneration: new mongoose.model("AvatarGeneration", avatarGeneration),
   ProductFiles: mongoose.model("productfiles.files",
-            new mongoose.Schema({filename : String, contentType : String, uploadDate : Date}),
-            "productfiles.files"
-            ),
-            ProductFilesChunks: mongoose.model("productfiles.chunks",
-            new mongoose.Schema({filename : String, data : Object, uploadDate : Date}),
-            "productfiles.chunks"
-            )
+    new mongoose.Schema({ filename: String, contentType: String, uploadDate: Date }),
+    "productfiles.files"
+  ),
+  ProductFilesChunks: mongoose.model("productfiles.chunks",
+    new mongoose.Schema({ filename: String, data: Object, uploadDate: Date }),
+    "productfiles.chunks"
+  )
 };
