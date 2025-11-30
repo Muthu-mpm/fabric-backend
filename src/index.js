@@ -27,7 +27,7 @@ const execFile = require('child_process').execFile;
 const { json } = require("body-parser");
 require("dotenv").config();
 
-const mongoURI = "mongodb://localhost:27017/oyna_cloud";
+const mongoURI = "mongodb+srv://muthumpm:qlIwOUmyOG7a5ABX@mongodb.5sy58yd.mongodb.net/?appName=mongodb";
 
 // connection
 const conn = mongoose.createConnection(mongoURI, {
