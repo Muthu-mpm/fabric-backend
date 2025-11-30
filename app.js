@@ -54,32 +54,35 @@ var notFound= app.use(function (req, res, next) {
 });
 
 
-if (app.get("env") === "development") {
+// if (app.get("env") === "development") {
   /**
   * this will get error message for development Enviroinment
   * @returns {string}
   */
   var errStatus= app.use(function (err, req, res, next) {
-    res.status(err.status || 500);
-    res.render("error", {
-      message: err.message,
-      error: err,
-    });
+    // res.status(err.status || 500);
+    // res.render("error", {
+    //   message: err.message,
+    //   error: err,
+    // });
+ res.sendFile("./index.html", {
+    root: path.resolve(__dirname, "public/client/"),
   });
-}
+  });
+// }
 
 
 /**
 * this will get error message
 * @returns {string}
 */
-var errstatus= app.use(function (err, req, res, next) {
-  res.status(err.status || 500);
-  res.render("error", {
-    message: err.message,
-    error: {},
-  });
-});
+// var errstatus= app.use(function (err, req, res, next) {
+//   res.status(err.status || 500);
+//   res.render("error", {
+//     message: err.message,
+//     error: {},
+//   });
+// });
 /** This is a function for setting listenning port. */
 app.set("port", process.env.PORT || 3001);
 /**
